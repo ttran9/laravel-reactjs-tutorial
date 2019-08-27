@@ -11,8 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    // $blogArticle = DB::table('blogs')->get(); // get all rows from the database.
+// Route::get('/', function () {
+//     // $blogArticle = DB::table('blogs')->get(); // get all rows from the database.
+//     return view('welcome');
+//     // return $blogArticle;
+// });
+
+Route::any('{all}', function () {
     return view('welcome');
-    // return $blogArticle;
-});
+})->where(['all' => '.*']);
