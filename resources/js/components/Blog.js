@@ -5,22 +5,31 @@ import axios from "axios";
 export default class Blog extends Component {
     constructor() {
         super();
+
+        this._isMounted = false;
         this.state = {
             blogs: []
         };
     }
 
     componentDidMount() {
+        this._isMounted = true;
         axios
             .get("/api/blog")
             .then(response => {
-                this.setState({
-                    blogs: response.data
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        blogs: response.data
+                    });
+                }
             })
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {
