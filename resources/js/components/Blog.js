@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import axios from "axios";
 
@@ -37,7 +38,9 @@ export default class Blog extends Component {
             <div className="container">
                 <ul>
                     {this.state.blogs.map(blog => (
-                        <li key={blog.id}>{blog.body}</li>
+                        <li key={blog.id}>
+                            <Link to={"/blog/" + blog.id}>{blog.name}</Link>
+                        </li>
                     ))}
                 </ul>
             </div>
