@@ -39,6 +39,13 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         //
+        $blog = new Blog();
+
+        $blog->name = $request->get('name');
+        $blog->body = $request->get('body');
+
+        $blog->save();
+        return $blog;
     }
 
     /**
@@ -49,7 +56,8 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
+        $blogArticle = Blog::where('id', $id)->get();
+        return response()->json($blogArticle);
     }
 
     /**
