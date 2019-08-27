@@ -5,38 +5,45 @@ export default class BlogArticle extends Component {
     constructor(props) {
         super(props);
 
+        this._isMounted = false;
         this.state = {
             post: {}
         };
     }
 
     componentDidMount() {
+        this._isMounted = true;
         axios
             .get("/api/blog/" + this.props.match.params.id)
             .then(response => {
-                this.setState({
-                    post: response.data[0]
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        post: response.data[0]
+                    });
+                }
             })
             .catch(error => {
                 console.log(error);
             });
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
-        const { post } = this.state;
         let content = <Fragment />;
-
-        console.log(post);
-
+        const { post } = this.state;
         if (post !== undefined) {
-            content = (
-                <div>
-                    <h1>{post.name}</h1>
-                    <p>{post.body}</p>
-                </div>
-            );
+            if (post.hasOwnProperty("name") && post.hasOwnProperty("body")) {
+                content = (
+                    <div>
+                        <h1>{post.name}</h1>
+                        <p>{post.body}</p>
+                    </div>
+                );
+            }
         }
-        return { content };
+        return content;
     }
 }
